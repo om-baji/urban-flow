@@ -1,8 +1,15 @@
-'use client'
+"use client";
 
 import localFont from "next/font/local";
 import "./globals.css";
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
+import { Toaster } from "@/components/ui/sonner";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,7 +29,7 @@ const geistMono = localFont({
 // };
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: "http://localhost:3000/graphql",
   cache: new InMemoryCache(),
 });
 
@@ -34,7 +41,10 @@ export default function RootLayout({ children }) {
       >
         {/* Wrapping the Apollo client for the HomePage */}
         <ApolloProvider client={client}>
-          {children}
+          <ClerkProvider>
+            <Toaster />
+            {children}
+          </ClerkProvider>
         </ApolloProvider>
       </body>
     </html>

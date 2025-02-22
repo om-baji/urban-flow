@@ -14,7 +14,7 @@ const userSchema = new Schema({
     },
     clerk_id : {
         type : String
-    }
+    },
 });
 
 const UserModel = mongoose.models.user || mongoose.model('user', userSchema);
