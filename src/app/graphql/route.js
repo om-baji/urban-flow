@@ -4,10 +4,6 @@ import { mergeResolvers, mergeTypeDefs } from '@graphql-tools/merge';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mongoConnect } from "@/mongodb/connection";
 import { mongoDatasources } from "@/mongodb/datasources";
-import { sequelizeConnect } from '@/sequelize/connection';
-import { sequelizeDatasources } from '@/sequelize/datasources';
-import { getSession } from "@/lib/session/fromCookies";
-
 
 const resolversArray = loadFilesSync('src/graphql/**/*.resolver.js');
 const resolvers      = mergeResolvers(resolversArray);
@@ -16,7 +12,6 @@ const typeDefsArray  = loadFilesSync('src/graphql/**/*.graphql');
 const typeDefs       = mergeTypeDefs(typeDefsArray);
 
 await mongoConnect();
-await sequelizeConnect();
 
 const server = new ApolloServer({ typeDefs, resolvers});
 const handler = startServerAndCreateNextHandler(server, {
@@ -24,7 +19,6 @@ const handler = startServerAndCreateNextHandler(server, {
         req, res,
         ds: {
             ...mongoDatasources,
-            ...sequelizeDatasources
         },
     })
 });

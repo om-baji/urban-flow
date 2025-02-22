@@ -1,9 +1,13 @@
-const { users } = require("./user.js");
-
-module.exports = { 
+module.exports = {
     Query: {
-        users: async (parent, args) => {
-            return users; 
-        }
-    }
-}
+        getUserById: async (_, { id }, { ds }) => {
+            return ds.UserDataSource.getUserById(id);
+        },
+    },
+    Mutation: {
+        createUser: async (_, { id, name, email }, { ds }) => {
+            const newUser = await ds.UserDataSource.model.create({ id, name, email });
+            return newUser;
+        },
+    },
+};
