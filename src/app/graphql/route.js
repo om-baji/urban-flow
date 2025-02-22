@@ -26,7 +26,6 @@ const handler = startServerAndCreateNextHandler(server, {
             ...mongoDatasources,
             ...sequelizeDatasources
         },
-        session: await getSession(),
     })
 });
 
