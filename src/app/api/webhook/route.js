@@ -12,11 +12,10 @@ export async function POST(request) {
         throw new Error("No webhook secret!");
     }
 
-    const payload = await request.json(); // Fix 1
+    const payload = await request.json();
     const body = JSON.stringify(payload);
-    const headersList = headers(); // Fix 2
+    const headersList = headers();
     const wh = new Webhook(webhook_secret);
-
     let evt;
 
     await mongoConnect();
@@ -43,9 +42,9 @@ export async function POST(request) {
             const email = email_addresses.find(
                 (email) => email.id === primary_email_address_id
             );
-
-            const user = new UserModel({ // Fix 3
-                id,
+            console.log(id,email)
+            const user = new UserModel({
+                clerk_id : id,
                 email: email?.email_address,
             });
 
